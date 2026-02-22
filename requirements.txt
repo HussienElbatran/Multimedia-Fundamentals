@@ -1,0 +1,5 @@
+pillow          # image manipulation
+opencv-python   # video analysis & frame extraction
+numpy           # required by opencv
+matplotlib      # histograms / plots
+pydub           # audio manipulation (also needs ffmpeg in PATH)
