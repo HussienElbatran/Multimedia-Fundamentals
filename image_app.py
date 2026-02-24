@@ -22,7 +22,7 @@ try:
 except ImportError:
     MPL_OK = False
 
-# ── palette ───────────────────────────────────────────────────────────────────
+# palette 
 C = {
     "bg":        "#0d0d1a",
     "panel":     "#13132b",
@@ -44,7 +44,7 @@ IMAGE_TYPES = [
 ]
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+# ----------------------------------------------------------------------------
 class ImageApp(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -72,7 +72,7 @@ class ImageApp(tk.Tk):
 
         self._build_ui()
 
-    # ── root layout ───────────────────────────────────────────────────────────
+    # root layout 
     def _build_ui(self):
         self._build_header()
         body = tk.Frame(self, bg=C["bg"])
@@ -82,7 +82,7 @@ class ImageApp(tk.Tk):
         self._build_canvas_area(body)
         self._build_statusbar()
 
-    # ── header ────────────────────────────────────────────────────────────────
+    # header 
     def _build_header(self):
         hdr = tk.Frame(self, bg=C["card"], pady=0)
         hdr.pack(fill="x")
@@ -124,7 +124,7 @@ class ImageApp(tk.Tk):
         b.bind("<Enter>", lambda e: b.config(bg=C["accent2"]))
         b.bind("<Leave>", lambda e: b.config(bg=C["accent"]))
 
-    # ── sidebar (tool panels) ─────────────────────────────────────────────────
+    # sidebar (tool panels) 
     def _build_sidebar(self, parent):
         outer = tk.Frame(parent, bg=C["sidebar"], width=230)
         outer.pack(side="left", fill="y")
@@ -172,7 +172,7 @@ class ImageApp(tk.Tk):
             b.bind("<Enter>", lambda e: b.config(bg=C["accent"]))
             b.bind("<Leave>", lambda e: b.config(bg=c))
 
-        # ── Rotate & Flip
+        # Rotate & Flip
         section("Rotate & Flip", "🔄")
         btn("Rotate 90° CW",    lambda: self._op(lambda i: i.rotate(-90, expand=True)))
         btn("Rotate 90° CCW",   lambda: self._op(lambda i: i.rotate( 90, expand=True)))
@@ -181,7 +181,7 @@ class ImageApp(tk.Tk):
         btn("Flip Horizontal",  lambda: self._op(ImageOps.mirror))
         btn("Flip Vertical",    lambda: self._op(ImageOps.flip))
 
-        # ── Color Adjustments
+        # Color Adjustments
         section("Color", "🎨")
         btn("Grayscale",        lambda: self._op(lambda i: i.convert("L").convert("RGB")))
         btn("Invert Colors",    lambda: self._op(lambda i: ImageOps.invert(i.convert("RGB"))))
@@ -195,7 +195,7 @@ class ImageApp(tk.Tk):
         btn("Saturation …",     lambda: self._dlg_enhance("Saturation", ImageEnhance.Color))
         btn("Sharpness …",      lambda: self._dlg_enhance("Sharpness",  ImageEnhance.Sharpness))
 
-        # ── Filters
+        # Filters
         section("Filters", "✨")
         btn("Blur",             lambda: self._op(lambda i: i.filter(ImageFilter.GaussianBlur(2))))
         btn("Strong Blur",      lambda: self._op(lambda i: i.filter(ImageFilter.GaussianBlur(8))))
@@ -208,7 +208,7 @@ class ImageApp(tk.Tk):
         btn("Min Filter",       lambda: self._op(lambda i: i.filter(ImageFilter.MinFilter(3))))
         btn("Max Filter",       lambda: self._op(lambda i: i.filter(ImageFilter.MaxFilter(3))))
 
-        # ── Crop & Resize
+        # Crop & Resize
         section("Crop & Resize", "✂️")
         btn("Resize …",         self._dlg_resize)
         btn("Crop …",           self._dlg_crop)
@@ -216,27 +216,27 @@ class ImageApp(tk.Tk):
         btn("Fit to 512×512",   lambda: self._op(lambda i: ImageOps.fit(i,(512,512))))
         btn("Fit to 1024×1024", lambda: self._op(lambda i: ImageOps.fit(i,(1024,1024))))
 
-        # ── Draw & Annotate
+        # Draw & Annotate
         section("Draw / Annotate", "✏️")
         btn("Add Border …",     self._dlg_border)
         btn("Add Text …",       self._dlg_text)
         btn("Draw Grid …",      self._dlg_grid)
 
-        # ── Pixel / Channel
+        # Pixel / Channel
         section("Channels", "🔬")
         btn("Red Channel only",   lambda: self._op(lambda i: self._channel(i, 0)))
         btn("Green Channel only", lambda: self._op(lambda i: self._channel(i, 1)))
         btn("Blue Channel only",  lambda: self._op(lambda i: self._channel(i, 2)))
         btn("Swap R ↔ B",         lambda: self._op(lambda i: Image.merge("RGB", i.convert("RGB").split()[::-1])))
 
-        # ── Info & Analysis
+        # Info & Analysis
         section("Info & Analysis", "📊")
         btn("File Info",        self._show_info)
         btn("Pixel Inspector",  self._show_pixel_inspector)
         btn("Show Histogram",   self._show_histogram)
         btn("Color Palette",    self._show_palette)
 
-    # ── canvas (preview) area ─────────────────────────────────────────────────
+    # canvas (preview) area 
     def _build_canvas_area(self, parent):
         frame = tk.Frame(parent, bg=C["bg"])
         frame.pack(side="left", fill="both", expand=True)
@@ -257,7 +257,7 @@ class ImageApp(tk.Tk):
             600, 340, text="📂  Open an image to begin",
             font=("Segoe UI", 18), fill=C["border"], tags="placeholder")
 
-    # ── status bar ────────────────────────────────────────────────────────────
+    # status bar 
     def _build_statusbar(self):
         bar = tk.Frame(self, bg=C["card"], pady=3)
         bar.pack(fill="x", side="bottom")
@@ -267,7 +267,7 @@ class ImageApp(tk.Tk):
         tk.Label(bar, textvariable=self._pixel_var, bg=C["card"], fg=C["accent2"],
                  font=("Consolas", 9), anchor="e", padx=12).pack(side="right")
 
-    # ── file operations ───────────────────────────────────────────────────────
+    # file operations 
     def _open_file(self):
         p = filedialog.askopenfilename(title="Open Image", filetypes=IMAGE_TYPES)
         if not p: return
@@ -303,7 +303,7 @@ class ImageApp(tk.Tk):
             self._path = out
             self._status_var.set(f"Saved → {out}")
 
-    # ── history helpers ───────────────────────────────────────────────────────
+    # history helpers 
     def _push_history(self, img: Image.Image):
         self._history.append(img.copy())
         self._redo.clear()
@@ -333,7 +333,7 @@ class ImageApp(tk.Tk):
         self._refresh_canvas()
         self._status_var.set("Reset to original.")
 
-    # ── generic operation runner ──────────────────────────────────────────────
+    # generic operation runner 
     def _op(self, fn):
         if self._current is None:
             messagebox.showwarning("No image", "Open an image first."); return
@@ -346,7 +346,7 @@ class ImageApp(tk.Tk):
         except Exception as exc:
             messagebox.showerror("Error", str(exc))
 
-    # ── canvas refresh ────────────────────────────────────────────────────────
+    # canvas refresh 
     def _refresh_canvas(self):
         if self._current is None: return
         self._canvas.delete("all")
@@ -377,7 +377,7 @@ class ImageApp(tk.Tk):
         else:
             self._pixel_var.set("")
 
-    # ── image operations ──────────────────────────────────────────────────────
+    # image operations 
     def _apply_sepia(self, img):
         gray = img.convert("L")
         return Image.merge("RGB", [
@@ -400,7 +400,7 @@ class ImageApp(tk.Tk):
         top  = (img.height - s) // 2
         return img.crop((left, top, left+s, top+s))
 
-    # ── dialogs ───────────────────────────────────────────────────────────────
+    # dialogs 
     def _dlg_rotate(self):
         self._simple_dialog(
             "Custom Rotate", "Angle (degrees):", 0.0, -360, 360,
@@ -564,7 +564,7 @@ class ImageApp(tk.Tk):
         tk.Button(d, text="Apply", command=apply, bg=C["accent"], fg="white",
                   relief="flat", padx=20, pady=7).pack(pady=14)
 
-    # ── info & analysis ───────────────────────────────────────────────────────
+    # info & analysis 
     def _show_info(self):
         if self._current is None: return
         size = os.path.getsize(self._path) if self._path and os.path.exists(self._path) else 0
@@ -668,7 +668,8 @@ class ImageApp(tk.Tk):
                   relief="flat", padx=14, pady=5).pack(pady=10)
 
 
-# ══════════════════════════════════════════════════════════════════════════════
+
 if __name__ == "__main__":
     app = ImageApp()
     app.mainloop()
+
