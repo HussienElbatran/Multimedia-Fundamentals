@@ -139,11 +139,11 @@ jupyter notebook
 
 ### Main Multimedia App
 
-![Main App](screenshots/main_app.png)
+![Main App](main_app.png)
 
 ### Image Studio
 
-![Image Studio](screenshots/image_studio.png)
+![Image Studio](img_studio.png)
 
 ---
 
